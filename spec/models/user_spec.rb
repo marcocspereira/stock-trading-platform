@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  username        :string(255)      not null
 #  password_digest :string(255)      not null
-#  role            :string(255)      not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -24,5 +23,4 @@ RSpec.describe User, type: :model do
   it { should have_many(:owned_businesses).class_name('Business').with_foreign_key('owner_id') }
   it { should have_many(:buy_orders) }
   it { should have_many(:transactions) }
-
 end
