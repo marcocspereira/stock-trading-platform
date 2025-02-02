@@ -1,16 +1,7 @@
 FactoryBot.define do
   factory :user do
     username { Faker::Internet.username }
-    password_digest { Faker::Internet.password }
-    role { %w[buyer owner].sample }
-
-    trait :buyer do
-      role { 'buyer' }
-    end
-
-    trait :owner do
-      role { 'owner' }
-    end
+    password { Faker::Internet.password }
   end
 
   factory :business do
@@ -24,7 +15,7 @@ FactoryBot.define do
     quantity { Faker::Number.between(from: 1, to: 1000) }
     price { Faker::Number.between(from: 1, to: 1000) }
     status { 'pending' }
-    user { association(:user) }
+    buyer { association(:user) }
     business { association(:business) }
 
     trait :pending do
@@ -47,7 +38,7 @@ FactoryBot.define do
     business { association(:business, available_shares: 100) }
 
     after(:build) do |transaction|
-      transaction.quantity = [transaction.quantity, transaction.business.available_shares].min
+      transaction.quantity = [ transaction.quantity, transaction.business.available_shares ].min
     end
   end
 end
