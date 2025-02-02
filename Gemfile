@@ -24,6 +24,12 @@ gem "kamal", require: false
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
+# Add ActiveModelSerializers to the project to handle JSON API responses
+gem "active_model_serializers"
+
+# Add bcrypt to the project to handle password hashing
+gem "bcrypt"
+
 group :development, :test do
   gem "byebug"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
