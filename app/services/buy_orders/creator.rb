@@ -15,11 +15,19 @@ module BuyOrders
       raise BusinessNotAvailableError, "Business is not available" unless @business.is_available?
       raise InvalidQuantityError, "Invalid quantity" unless is_valid_quantity?
 
-      buy_order = BuyOrder.create(business_id: @business.id, buyer_id: @user.id, quantity: @quantity, price: @price)
+      buy_order = BuyOrder.new(business_id: @business.id, buyer_id: @user.id, quantity: @quantity, price: @price)
+      buy_order.save!
       buy_order
     end
 
     private
+
+    def validate_buy_order!
+      raise InvalidBuyOrderError, "Invalid parameters" unless valid_params?
+      raise InvalidBuyOrderError, "You are the owner of this business and cannot buy shares" if is_owner?
+      raise BusinessNotAvailableError, "Business is not available" unless @business.is_available?
+      raise InvalidQuantityError, "Invalid quantity" unless is_valid_quantity?
+    end
 
     def valid_params?
       @business && @user && @quantity && @price

@@ -17,6 +17,8 @@ RSpec.describe "PUT /api/v1/buy_orders/:id", type: :request do
 
     context 'when the buy order is not found' do
       let(:invalid_id) { 999999 }
+      let(:headers) { auth_headers(buy_order.buyer) }
+      let(:params) { { buy_order: { quantity: 10, price: 100 } } }
       let(:endpoint) { "/api/v1/buy_orders/#{invalid_id}" }
 
       it 'returns a not found error' do

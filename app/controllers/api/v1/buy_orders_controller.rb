@@ -1,4 +1,6 @@
 class Api::V1::BuyOrdersController < ApplicationController
+  before_action :find_buy_order, only: [:show, :update]
+
   # GET /api/v1/businesses/:business_id/buy_orders
   # Index all buy orders for a business, only available for owners
   def index
@@ -10,13 +12,11 @@ class Api::V1::BuyOrdersController < ApplicationController
   # GET /api/v1/buy_orders/:id
   # Show a buy order, only available for owners and buyers
   def show
-    buy_order = BuyOrder.includes(:business).find(params[:id])
-
-    unless buy_order.buyer_id == current_user.id || buy_order.business.owner_id == current_user.id
+    unless @buy_order.buyer_id == current_user.id || @buy_order.business.owner_id == current_user.id
       render json: { error: "Forbidden access" }, status: :forbidden and return
     end
 
-    render json: buy_order, serializer: BuyOrderSerializer
+    render json: @buy_order, serializer: BuyOrderSerializer
   end
 
   # POST /api/v1/businesses/:business_id/buy_orders
@@ -35,11 +35,8 @@ class Api::V1::BuyOrdersController < ApplicationController
   # PATCH /api/v1/businesses/:business_id/buy_orders/:id
   # Update a buy order status, only available for owners
   def update
-    buy_order = BuyOrder.includes(:business).find(params[:id])
-    raise ActiveRecord::RecordNotFound, "Couldn't find BuyOrder with 'id'=#{params[:id]}" if buy_order.nil?
-    
     buy_order_params_to_update = params.require(:buy_order).permit(:quantity, :price, :status)
-    updater = BuyOrders::UpdaterService.build(buy_order, current_user)
+    updater = BuyOrders::UpdaterService.build(@buy_order, current_user)
     updated_order = updater.call(buy_order_params_to_update)
 
     if updated_order
@@ -58,6 +55,11 @@ class Api::V1::BuyOrdersController < ApplicationController
   end
 
   private
+
+  def find_buy_order
+    @buy_order = BuyOrder.includes(:business).find(params[:id])
+    raise ActiveRecord::RecordNotFound, "Couldn't find BuyOrder with 'id'=#{params[:id]}" if @buy_order.nil?
+  end
 
   def buy_order_params
     params.require(:buy_order).permit(:quantity, :price, :business_id)
