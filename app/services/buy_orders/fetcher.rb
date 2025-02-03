@@ -1,7 +1,7 @@
 module BuyOrders
   class Fetcher
     def self.call(params, current_user)
-      if params[:business_id]
+      if params&.dig(:business_id)
         fetch_business_buy_orders(params[:business_id], current_user)
       else
         fetch_user_buy_orders(current_user)
