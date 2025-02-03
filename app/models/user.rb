@@ -12,9 +12,9 @@
 class User < ApplicationRecord
   has_secure_password
 
-  has_many :owned_businesses, class_name: "Business", foreign_key: "owner_id"
-  has_many :buy_orders, class_name: "BuyOrder", foreign_key: "buyer_id"
-  has_many :transactions
+  has_many :owned_businesses, class_name: "Business", foreign_key: "owner_id", dependent: :destroy  
+  has_many :buy_orders, class_name: "BuyOrder", foreign_key: "buyer_id", dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
   validates :username, presence: true, uniqueness: true
   validates :password_digest, presence: true
