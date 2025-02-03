@@ -18,8 +18,8 @@ user2 = User.create!(username: "test2", password: "password2")
 user3 = User.create!(username: "test3", password: "password3")
 
 business1 = Business.create!(name: "Test Business", owner: user1, total_shares: 100, available_shares: 100)
-business2 = Business.create!(name: "Test Business", owner: user2, total_shares: 100, available_shares: 100)
-business3 = Business.create!(name: "Test Business", owner: user2, total_shares: 100, available_shares: 100)
+business2 = Business.create!(name: "Test Business2", owner: user2, total_shares: 100, available_shares: 100)
+business3 = Business.create!(name: "Test Business3", owner: user2, total_shares: 100, available_shares: 100)
 
 BuyOrder.create!(business: business1, buyer: user2, quantity: 10, price: 100, status: 'approved')
 Transaction.create!(user: user2, business: business1, quantity: 10, price: 100)
