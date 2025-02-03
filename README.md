@@ -9,6 +9,11 @@
 
 ## Configuration
 
+### Other pages
+
+* [cURL examples](readmes/curl_examples.md)
+* [RSpec examples](readmes/specs.md)
+* [Implemented](readmes/implemented.md)
 ### Index
 
 * Launch the app
@@ -66,7 +71,7 @@ All these endpoints are available at `http://localhost:3000/api/v1` and are just
 
 
 
-Check [cURL examples](readmes/curl_examples.md) to test get information on how to test/use them).
+Check **[cURL examples](readmes/curl_examples.md)** to test get information on how to test/use them).
 
 
 ## Run tests

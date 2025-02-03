@@ -10,14 +10,11 @@ module BuyOrders
     end
 
     def call
-      raise InvalidBuyOrderError, "Invalid parameters" unless valid_params?
-      raise InvalidBuyOrderError, "You are the owner of this business and cannot buy shares" if is_owner?
-      raise BusinessNotAvailableError, "Business is not available" unless @business.is_available?
-      raise InvalidQuantityError, "Invalid quantity" unless is_valid_quantity?
+      validate_buy_order!
 
-      buy_order = BuyOrder.new(business_id: @business.id, buyer_id: @user.id, quantity: @quantity, price: @price)
-      buy_order.save!
-      buy_order
+      ActiveRecord::Base.transaction do
+        create_transaction_for_buy_order
+      end
     end
 
     private
@@ -39,6 +36,12 @@ module BuyOrders
 
     def is_valid_quantity?
       @quantity > 0 && @quantity <= @business.remaining_shares
+    end
+
+    def create_transaction_for_buy_order
+      buy_order = BuyOrder.new(business_id: @business.id, buyer_id: @user.id, quantity: @quantity, price: @price)
+      buy_order.save!
+      buy_order
     end
   end
 end
