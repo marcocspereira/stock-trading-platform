@@ -19,6 +19,7 @@
 * The documented **cURL** examples are in the `curl_examples.md` file and are related to the endpoints in README.md and data in `seeds.rb`.
 * The `BuyOrder` update uses the Factory Method design pattern to update the buy order, mapping the right class according to the user: **owner** can update the buy order status, **buyer** can update the buy order quantity and price. Both, only if the order is pending.
 * There is a `Transaction` model, which is used to record the `approved` buy orders, however, without implement relationshing between `BuyOrder` and `Transaction`, only with `User` and `Business`.
+* Despite of using Rails 8, there is no usage of new capabilities.
 
 ## TODO
 
