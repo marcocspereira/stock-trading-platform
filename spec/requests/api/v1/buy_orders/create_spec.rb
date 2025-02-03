@@ -47,7 +47,7 @@ RSpec.describe "POST /api/v1/businesses/:business_id/buy_orders", type: :request
       it 'returns a 422 unprocessable entity error' do
         aggregate_failures do
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(json_response['error']).to eq("You are not the owner of this business")
+          expect(json_response['error']).to eq("You are the owner of this business and cannot buy shares")
         end
       end
     end

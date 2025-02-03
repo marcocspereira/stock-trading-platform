@@ -11,7 +11,7 @@ module BuyOrders
 
     def call
       raise InvalidBuyOrderError, "Invalid parameters" unless valid_params?
-      raise InvalidBuyOrderError, "You are not the owner of this business" if is_owner?
+      raise InvalidBuyOrderError, "You are the owner of this business and cannot buy shares" if is_owner?
       raise BusinessNotAvailableError, "Business is not available" unless @business.is_available?
       raise InvalidQuantityError, "Invalid quantity" unless is_valid_quantity?
 
