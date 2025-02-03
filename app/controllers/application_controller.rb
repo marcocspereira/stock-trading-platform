@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
   rescue_from ::InvalidQuantityError, with: :invalid_quantity
   rescue_from ::InvalidBuyOrderStatusError, with: :invalid_buy_order_status
   rescue_from ::InvalidBuyOrderError, with: :invalid_buy_order
-
+  rescue_from ::ActiveRecord::RecordNotFound, with: :record_not_found
   # Global authentication before any action in the application
   before_action :authenticate_user
 
@@ -39,5 +39,9 @@ class ApplicationController < ActionController::API
 
   def invalid_buy_order(e)
     render json: { error: e.message || message }, status: :unprocessable_entity
+  end
+
+  def record_not_found(e)
+    render json: { error: e.message || message }, status: :not_found
   end
 end

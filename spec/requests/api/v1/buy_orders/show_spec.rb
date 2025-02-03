@@ -19,6 +19,18 @@ RSpec.describe "GET /api/v1/buy_orders/:id", type: :request do
 
     before { get endpoint, headers: headers, params: {} }
 
+    context 'when the business is not found' do
+      let(:invalid_id) { 999999 }
+      let(:endpoint) { "/api/v1/buy_orders/#{invalid_id}" }
+
+      it 'returns a not found error' do
+        aggregate_failures do
+          expect(response).to have_http_status(:not_found)
+          expect(json_response['error']).to eq("Couldn't find BuyOrder with 'id'=#{invalid_id}")
+        end
+      end
+    end
+
     context 'when the user is not the buyer or the owner of the business that the order is for' do
       let(:headers) { auth_headers(create(:user)) }
 

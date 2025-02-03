@@ -36,7 +36,7 @@ class Api::V1::BuyOrdersController < ApplicationController
   # Update a buy order status, only available for owners
   def update
     buy_order = BuyOrder.includes(:business).find(params[:id])
-
+    raise ActiveRecord::RecordNotFound, "Couldn't find BuyOrder with 'id'=#{params[:id]}" if buy_order.nil?
     buy_order_params_to_update = params.require(:buy_order).permit(:quantity, :price, :status)
     updater = BuyOrders::UpdaterService.build(buy_order, current_user)
     updated_order = updater.call(buy_order_params_to_update)

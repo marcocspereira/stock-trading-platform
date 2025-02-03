@@ -18,6 +18,18 @@ RSpec.describe "POST /api/v1/businesses/:business_id/buy_orders", type: :request
   context "when the user is authenticated" do
     let(:headers) { auth_headers(user) }
 
+    context 'when the business is not found' do
+      let(:invalid_id) { 999999 }
+      let(:endpoint) { "/api/v1/businesses/#{invalid_id}/buy_orders" }
+
+      it 'returns a not found error' do
+        aggregate_failures do
+          expect(response).to have_http_status(:not_found)
+          expect(json_response['error']).to eq("Couldn't find Business with 'id'=#{invalid_id}")
+        end
+      end
+    end
+
     context 'when parameters are missing' do
       let(:params) { {} }
 

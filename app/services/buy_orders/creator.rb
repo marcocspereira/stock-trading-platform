@@ -2,6 +2,8 @@ module BuyOrders
   class Creator
     def initialize(current_user, business_id, params)
       @business = Business.find(business_id)
+      raise ActiveRecord::RecordNotFound, "Couldn't find Business with 'id'=#{business_id}" if @business.nil?
+
       @user = current_user
       @quantity = params[:quantity].to_i
       @price = params[:price].to_d
