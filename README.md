@@ -89,4 +89,4 @@ bin/rails db:create
 rspec # again
 ```
 
-It may display output like [this specs file](specs.md).
+It may display output like [this specs file](readmes/specs.md).
