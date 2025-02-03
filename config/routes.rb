@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  post '/run_seeds', to: 'seeds#run'
+
   namespace :api do
     namespace :v1 do
       resources :businesses, only: [ :index, :show, :create, :update ] do
